@@ -24,8 +24,9 @@ public class Test {
 
 
         Table winTable = new Table();
+        System.out.println("Дата начала:");
         System.out.println(new Date(System.currentTimeMillis()));
-        while (counter < 50) {
+        while (counter < 200) {
             for (Integer match : matches) {
                 //   System.out.println("Послали запрос на инфу о матче");
                 //  System.out.println(System.currentTimeMillis());
@@ -63,6 +64,7 @@ public class Test {
             }
         }
         System.out.println(winTable);
+        System.out.println("Дата конца:");
         System.out.println(new Date(System.currentTimeMillis()));
 
     }

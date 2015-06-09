@@ -10,6 +10,7 @@ public class Table {
     public Table() {
         initiateMidTable();
         this.winRate = new double[112][112];
+        this.counterRate = new double[112][112];
     }
 
     public Table(File file) {
@@ -148,6 +149,57 @@ public class Table {
                     strDouble = "100.0";
                 } else {
                     strDouble += String.format("%.2f", winRate[i][j] * 100);
+                }
+                stringBuilder.append(strDouble + "|");
+            }
+            stringBuilder.append("\n");
+        }
+        stringBuilder.append("\n");
+        stringBuilder.append("\n");
+        updateCounterRate();
+        for (int i = 0; i < 5; i++) {
+            stringBuilder.append(" ");
+        }
+        stringBuilder.append("|");
+        for (int i = 0; i < 112; i++) {
+            if (i == 23 || i == 107)
+                continue;
+            String name = "";
+            if (Test.idNames.get(i + 1).length() < 5) {
+                name = Test.idNames.get(i + 1);
+                for (int j = 0; j < 5 - Test.idNames.get(i + 1).length(); j++) {
+                    name += " ";
+                }
+            } else {
+                name = Test.idNames.get(i + 1).substring(0, 5);
+            }
+            stringBuilder.append(name + "|");
+        }
+        stringBuilder.append("\n");
+        for (int i = 0; i < 112; i++) {
+            if (i == 23 || i == 107)
+                continue;
+            String name = "";
+            if (Test.idNames.get(i + 1).length() < 5) {
+                name = Test.idNames.get(i + 1);
+                for (int j = 0; j < 5 - Test.idNames.get(i + 1).length(); j++) {
+                    name += " ";
+                }
+            } else {
+                name = Test.idNames.get(i + 1).substring(0, 5);
+            }
+            stringBuilder.append(name + "|");
+            for (int j = 0; j < 112; j++) {
+                if (j == 23 || j == 107)
+                    continue;
+                String strDouble = "";
+                if (counterRate[i][j] * 100 < 10) {
+                    strDouble = " ";
+                }
+                if (counterRate[i][j] == new Double(1)) {
+                    strDouble = "100.0";
+                } else {
+                    strDouble += String.format("%.2f", counterRate[i][j] * 100);
                 }
                 stringBuilder.append(strDouble + "|");
             }

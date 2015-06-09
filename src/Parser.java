@@ -50,12 +50,18 @@ public class Parser {
             for (int i = 0; i < 5; i++) {
                 text = text.substring(text.indexOf("hero_id") + 10, text.length());
                 Byte heroId = Byte.valueOf(text.substring(0, text.indexOf(",")));
+                if (heroId == 0) {
+                    return null;
+                }
                 radiantTeam[i] = heroId;
             }
             for (int i = 0; i < 5; i++) {
                 text = text.substring(text.indexOf("hero_id") + 10, text.length());
                 Byte heroId = Byte.valueOf(text.substring(0, text.indexOf(",")));
                 direTeam[i] = heroId;
+                if (heroId == 0) {
+                    return null;
+                }
             }
             text = text.substring(text.indexOf("radiant_win") + 14, text.length());
             Boolean radiant_win = Boolean.valueOf(text.substring(0, text.indexOf(",")));
