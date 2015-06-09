@@ -31,9 +31,6 @@ public class Test {
 
 
         int counter = 0;
-
-
-        Table winTable = new Table();
         System.out.println("Дата начала:");
         System.out.println(new Date(System.currentTimeMillis()));
         while (counter < 20000) {
@@ -45,7 +42,7 @@ public class Test {
                 parser = new Parser(http.toString());
                 byte[] matchResult = parser.getHeroes();
                 if (matchResult != null) {
-                    winTable.updateMidTable(matchResult);
+                    table.updateMidTable(matchResult);
                     System.out.println(counter);
                /*     System.out.println("Match id:" + match);
                     System.out.println("Winners:");
@@ -60,7 +57,7 @@ public class Test {
                     }
                */
                     if (counter % 50 == 0) {
-                        winTable.saveToFile(match);
+                        table.saveToFile(match);
                     }
                     counter++;
                 }
@@ -74,7 +71,7 @@ public class Test {
                 matches = parser.getMatches();
             }
         }
-        System.out.println(winTable);
+        System.out.println(table);
         System.out.println("Дата конца:");
         System.out.println(new Date(System.currentTimeMillis()));
 
