@@ -513,7 +513,11 @@
       <created>1433873929912</created>
       <updated>1433873929912</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="читает с файла&#10;">
+      <created>1433873935713</created>
+      <updated>1433873935713</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
