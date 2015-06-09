@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -17,10 +18,11 @@ public class Parser {
         }
         return result;
     }
+
     byte[] concat(byte[] A, byte[] B) {
         int aLen = A.length;
         int bLen = B.length;
-        byte[] C= new byte[aLen+bLen];
+        byte[] C = new byte[aLen + bLen];
         System.arraycopy(A, 0, C, 0, aLen);
         System.arraycopy(B, 0, C, aLen, bLen);
         return C;
@@ -28,6 +30,8 @@ public class Parser {
 
     public byte[] getHeroes() {
         if (text.charAt(text.indexOf("lobby_type") + 13) == '7') {
+            long time = Long.valueOf(text.substring(text.indexOf("start_time") + 13, text.indexOf("start_time") + 22));
+            System.out.println(new Date(time * 10000L));
             byte[] radiantTeam = new byte[5];
             byte[] direTeam = new byte[5];
 
@@ -44,7 +48,7 @@ public class Parser {
             text = text.substring(text.indexOf("radiant_win") + 14, text.length());
             Boolean radiant_win = Boolean.valueOf(text.substring(0, text.indexOf(",")));
             if (radiant_win) {
-                return  concat(radiantTeam, direTeam);
+                return concat(radiantTeam, direTeam);
             } else {
                 return concat(direTeam, radiantTeam);
             }
