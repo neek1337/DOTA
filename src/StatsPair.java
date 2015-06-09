@@ -7,6 +7,11 @@ public class StatsPair {
         this.wins = 0;
     }
 
+    public StatsPair(Integer amount,Integer wins){
+        this.amount = amount;
+        this.wins = wins;
+    }
+
     public void incAmount() {
         this.amount++;
     }

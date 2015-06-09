@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class Table {
 
@@ -6,6 +7,7 @@ public class Table {
     private StatsPair[][] midTableCounter;
     private double[][] winRate;
     private double[][] counterRate;
+    private int next;
 
     public Table() {
         initiateMidTable();
@@ -13,9 +15,31 @@ public class Table {
         this.counterRate = new double[112][112];
     }
 
-    public Table(File file) {
-        if (file.getName().equals("midTableSynergy.txt")) {
+    public int getNext() {
+        return next;
+    }
 
+    public Table(File fileSynergy, File fileCounter) throws FileNotFoundException {
+        Scanner scannerSynergy = new Scanner(fileSynergy);
+        Scanner scannerCounter = new Scanner(fileCounter);
+        scannerSynergy.next();
+        scannerSynergy.next();
+        this.next = Integer.valueOf(scannerSynergy.next());
+        this.winRate = new double[112][112];
+        this.counterRate = new double[112][112];
+        initiateMidTable();
+
+        for (int i = 0; i < 112; i++) {
+            for (int j = 0; j < 112; j++) {
+                String[] nodes = scannerSynergy.next().split("\\|");
+                this.midTableSynergy[i][j] = new StatsPair(Integer.valueOf(nodes[0]), Integer.valueOf(nodes[1]));
+            }
+        }
+        for (int i = 0; i < 112; i++) {
+            for (int j = 0; j < 112; j++) {
+                String[] nodes = scannerCounter.next().split("\\|");
+                this.midTableCounter[i][j] = new StatsPair(Integer.valueOf(nodes[0]), Integer.valueOf(nodes[1]));
+            }
         }
     }
 
@@ -36,7 +60,7 @@ public class Table {
         }
 
 
-        for(int i = 0; i<allHeroes.length / 2; i++ ){
+        for (int i = 0; i < allHeroes.length / 2; i++) {
             for (int j = allHeroes.length / 2; j < allHeroes.length; j++) {
                 midTableCounter[allHeroes[i] - 1][allHeroes[j] - 1].incAll();
                 midTableCounter[allHeroes[j] - 1][allHeroes[i] - 1].incAmount();
