@@ -1,5 +1,3 @@
-import javafx.util.Pair;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,23 +27,19 @@ public class Test {
             for (Integer match : matches) {
                 http = new Http(getMatchDetails + match);
                 parser = new Parser(http.toString());
-                Pair<Long, Long> matchResult = parser.getHeroes();
+                byte[] matchResult = parser.getHeroes();
                 if (matchResult != null) {
                     System.out.println(counter);
                     counter++;
                     System.out.println("Match id:" + match);
-                    Long winners = matchResult.getKey();
                     System.out.println("Winners:");
                     for (int i = 0; i < 5; i++) {
-                        winners = winners / 113;
-                        int hero = (int) (winners % 113);
+                        int hero = matchResult[i];
                         System.out.println(table.get(hero));
                     }
                     System.out.println("Losers:");
-                    Long losers = matchResult.getValue();
                     for (int i = 0; i < 5; i++) {
-                        losers = losers / 113;
-                        int hero = (int) (losers % 113);
+                        int hero = matchResult[i + 5];
                         System.out.println(table.get(hero));
                     }
                 }

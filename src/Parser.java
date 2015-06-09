@@ -1,5 +1,3 @@
-import javafx.util.Pair;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -19,30 +17,36 @@ public class Parser {
         }
         return result;
     }
+    byte[] concat(byte[] A, byte[] B) {
+        int aLen = A.length;
+        int bLen = B.length;
+        byte[] C= new byte[aLen+bLen];
+        System.arraycopy(A, 0, C, 0, aLen);
+        System.arraycopy(B, 0, C, aLen, bLen);
+        return C;
+    }
 
-    public Pair<Long, Long> getHeroes() {
+    public byte[] getHeroes() {
         if (text.charAt(text.indexOf("lobby_type") + 13) == '7') {
-            Long firstTeam = Long.valueOf(0), secondTeam = Long.valueOf(0);
-            Long local = Long.valueOf(113);
+            byte[] radiantTeam = new byte[5];
+            byte[] direTeam = new byte[5];
+
             for (int i = 0; i < 5; i++) {
                 text = text.substring(text.indexOf("hero_id") + 10, text.length());
-                Integer heroId = Integer.valueOf(text.substring(0, text.indexOf(",")));
-                firstTeam += local * heroId;
-                local *= 113;
+                Byte heroId = Byte.valueOf(text.substring(0, text.indexOf(",")));
+                radiantTeam[i] = heroId;
             }
-            local = Long.valueOf(113);
             for (int i = 0; i < 5; i++) {
                 text = text.substring(text.indexOf("hero_id") + 10, text.length());
-                Integer heroId = Integer.valueOf(text.substring(0, text.indexOf(",")));
-                secondTeam += local * heroId;
-                local *= 113;
+                Byte heroId = Byte.valueOf(text.substring(0, text.indexOf(",")));
+                direTeam[i] = heroId;
             }
             text = text.substring(text.indexOf("radiant_win") + 14, text.length());
             Boolean radiant_win = Boolean.valueOf(text.substring(0, text.indexOf(",")));
             if (radiant_win) {
-                return new Pair<Long, Long>(firstTeam, secondTeam);
+                return  concat(radiantTeam, direTeam);
             } else {
-                return new Pair<Long, Long>(secondTeam, firstTeam);
+                return concat(direTeam, radiantTeam);
             }
         }
         return null;
