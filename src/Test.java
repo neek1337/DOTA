@@ -10,7 +10,7 @@ public class Test {
         String getMatchHistory = "https://api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/?key=";
         String getMatchDetails = "https://api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001/?key=DC4EE859CADCA39B8ED09FDE65451627&match_id=";
         String getHeroes = "https://api.steampowered.com/IEconDOTA2_570/GetHeroes/v0001/?key=DC4EE859CADCA39B8ED09FDE65451627";
-        Http http = new Http(getMatchHistory + key + "&min_players=10");
+        Http http = new Http(getMatchHistory + key + "&min_players=10&skill=3");
         Parser parser = new Parser(http.toString());
         LinkedList<Integer> matches = parser.getMatches();
 
@@ -31,6 +31,14 @@ public class Test {
                 int hero = (int) (winners % 113);
                 System.out.println(table.get(hero));
             }
+            System.out.println("Losers:");
+            Long losers = matchResult.getValue();
+            for (int i = 0; i < 5; i++) {
+                losers = losers / 113;
+                int hero = (int) (losers % 113);
+                System.out.println(table.get(hero));
+            }
+
         }
 
 
