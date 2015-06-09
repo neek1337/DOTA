@@ -21,28 +21,31 @@ public class Parser {
     }
 
     public Pair<Long, Long> getHeroes() {
-        Long firstTeam = Long.valueOf(0), secondTeam = Long.valueOf(0);
-        Long local = Long.valueOf(113);
-        for (int i = 0; i < 5; i++) {
-            text = text.substring(text.indexOf("hero_id") + 10, text.length());
-            Integer heroId = Integer.valueOf(text.substring(0, text.indexOf(",")));
-            firstTeam += local * heroId;
-            local *= 113;
+        if (text.charAt(text.indexOf("lobby_type") + 13) == '7') {
+            Long firstTeam = Long.valueOf(0), secondTeam = Long.valueOf(0);
+            Long local = Long.valueOf(113);
+            for (int i = 0; i < 5; i++) {
+                text = text.substring(text.indexOf("hero_id") + 10, text.length());
+                Integer heroId = Integer.valueOf(text.substring(0, text.indexOf(",")));
+                firstTeam += local * heroId;
+                local *= 113;
+            }
+            local = Long.valueOf(113);
+            for (int i = 0; i < 5; i++) {
+                text = text.substring(text.indexOf("hero_id") + 10, text.length());
+                Integer heroId = Integer.valueOf(text.substring(0, text.indexOf(",")));
+                secondTeam += local * heroId;
+                local *= 113;
+            }
+            text = text.substring(text.indexOf("radiant_win") + 14, text.length());
+            Boolean radiant_win = Boolean.valueOf(text.substring(0, text.indexOf(",")));
+            if (radiant_win) {
+                return new Pair<Long, Long>(firstTeam, secondTeam);
+            } else {
+                return new Pair<Long, Long>(secondTeam, firstTeam);
+            }
         }
-        local = Long.valueOf(113);
-        for (int i = 0; i < 5; i++) {
-            text = text.substring(text.indexOf("hero_id") + 10, text.length());
-            Integer heroId = Integer.valueOf(text.substring(0, text.indexOf(",")));
-            secondTeam += local * heroId;
-            local *= 113;
-        }
-        text = text.substring(text.indexOf("radiant_win") + 14, text.length());
-        Boolean radiant_win = Boolean.valueOf(text.substring(0, text.indexOf(",")));
-        if (radiant_win) {
-            return new Pair<Long, Long>(firstTeam, secondTeam);
-        } else {
-            return new Pair<Long, Long>(secondTeam, firstTeam);
-        }
+        return null;
     }
 
     public HashMap<Integer, String> makeMap() {
