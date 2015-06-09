@@ -21,21 +21,22 @@ public class Test {
         idNames = parser.makeMap();
 
         int counter = 0;
-        Date date = new Date();
-        date.getTime();
 
-        Table winTable = new Table("Win");
+
+        Table winTable = new Table();
         System.out.println(new Date(System.currentTimeMillis()));
         while (counter < 50) {
             for (Integer match : matches) {
+                //   System.out.println("Послали запрос на инфу о матче");
+                //  System.out.println(System.currentTimeMillis());
                 http = new Http(getMatchDetails + match);
+                //   System.out.println(System.currentTimeMillis());
                 parser = new Parser(http.toString());
                 byte[] matchResult = parser.getHeroes();
                 if (matchResult != null) {
                     winTable.updateMidTable(matchResult);
                     System.out.println(counter);
-                    counter++;
-                    System.out.println("Match id:" + match);
+               /*     System.out.println("Match id:" + match);
                     System.out.println("Winners:");
                     for (int i = 0; i < 5; i++) {
                         int hero = matchResult[i];
@@ -46,13 +47,17 @@ public class Test {
                         int hero = matchResult[i + 5];
                         System.out.println(idNames.get(hero));
                     }
-                    if (counter % 100 == 0) {
+               */     if (counter % 50 == 0) {
                         winTable.saveToFile(match);
                     }
+                    counter++;
                 }
 
-                matchId = match;
-                http = new Http(getMatchHistory + key + "&min_players=10&skill=3&start_at_match_id=" + matchId);
+                matchId = parser.getNext();
+             //   System.out.println("Послали запрос на 100 игр");
+             //   System.out.println(System.currentTimeMillis());
+                http = new Http(getMatchHistory + key + "&min_players=10&skill=3&start_at_match_id=" + matchId+"game_mode=1");
+             //   System.out.println(System.currentTimeMillis());
                 parser = new Parser(http.toString());
                 matches = parser.getMatches();
             }

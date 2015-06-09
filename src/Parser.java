@@ -4,17 +4,29 @@ import java.util.LinkedList;
 
 public class Parser {
     private String text;
+    private int next;
 
     public Parser(String text) {
         this.text = text;
     }
 
+    public int getNext() {
+        return next;
+    }
+
     public LinkedList<Integer> getMatches() {
         LinkedList<Integer> result = new LinkedList<Integer>();
+        int counter = 0;
         while (text.contains("match_id")) {
             text = text.substring(text.indexOf("match_id") + 11, text.length());
-            Integer matchId = Integer.valueOf(text.substring(0, text.indexOf(",")));
-            result.add(matchId);
+            counter++;
+            if (counter == 100) {
+                next = Integer.valueOf(text.substring(0, text.indexOf(",")));
+            }
+            if (text.charAt(text.indexOf("lobby_type") + 13) == '7') {
+                Integer matchId = Integer.valueOf(text.substring(0, text.indexOf(",")));
+                result.add(matchId);
+            }
         }
         return result;
     }

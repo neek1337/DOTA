@@ -1,17 +1,13 @@
-
-
 import java.io.*;
 
 public class Table {
 
-    private String name;
     private StatsPair[][] midTableSynergy;
     private StatsPair[][] midTableCounter;
     private double[][] winRate;
     private double[][] counterRate;
 
-    public Table(String name) {
-        this.name = name;
+    public Table() {
         initiateMidTable();
         this.winRate = new double[112][112];
     }
@@ -24,29 +20,31 @@ public class Table {
 
     public void updateMidTable(byte[] allHeroes) {
 
-        if (this.name.equals("Synergy")) {
-            for (int i = 0; i < allHeroes.length / 2; i++) {
-                for (int j = i + 1; j < allHeroes.length / 2; j++) {
-                    midTableSynergy[allHeroes[i] - 1][allHeroes[j] - 1].incAll();
-                    midTableSynergy[allHeroes[j] - 1][allHeroes[i] - 1].incAll();
-                }
+
+        for (int i = 0; i < allHeroes.length / 2; i++) {
+            for (int j = i + 1; j < allHeroes.length / 2; j++) {
+                midTableSynergy[allHeroes[i] - 1][allHeroes[j] - 1].incAll();
+                midTableSynergy[allHeroes[j] - 1][allHeroes[i] - 1].incAll();
             }
-            for (int i = allHeroes.length / 2; i < allHeroes.length; i++) {
-                for (int j = i + 1; j < allHeroes.length; j++) {
-                    midTableSynergy[allHeroes[i] - 1][allHeroes[j] - 1].incAmount();
-                    midTableSynergy[allHeroes[j] - 1][allHeroes[i] - 1].incAmount();
-                }
-            }
-        } else {
-            for (int i = 0; i < allHeroes.length / 2; i++) {
-                for (int j = allHeroes.length / 2; j < allHeroes.length; j++) {
-                    midTableCounter[allHeroes[i] - 1][allHeroes[j] - 1].incAll();
-                    midTableCounter[allHeroes[j] - 1][allHeroes[i] - 1].incAmount();
-                }
+        }
+        for (int i = allHeroes.length / 2; i < allHeroes.length; i++) {
+            for (int j = i + 1; j < allHeroes.length; j++) {
+                midTableSynergy[allHeroes[i] - 1][allHeroes[j] - 1].incAmount();
+                midTableSynergy[allHeroes[j] - 1][allHeroes[i] - 1].incAmount();
             }
         }
 
+
+        for(int i = 0; i<allHeroes.length / 2; i++ ){
+            for (int j = allHeroes.length / 2; j < allHeroes.length; j++) {
+                midTableCounter[allHeroes[i] - 1][allHeroes[j] - 1].incAll();
+                midTableCounter[allHeroes[j] - 1][allHeroes[i] - 1].incAmount();
+            }
+        }
+
+
     }
+
 
     private void initiateMidTable() {
         this.midTableSynergy = new StatsPair[112][112];
@@ -147,7 +145,7 @@ public class Table {
                     strDouble = " ";
                 }
                 if (winRate[i][j] == new Double(1)) {
-                    strDouble = "100,0";
+                    strDouble = "100.0";
                 } else {
                     strDouble += String.format("%.2f", winRate[i][j] * 100);
                 }
